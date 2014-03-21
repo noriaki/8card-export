@@ -1,0 +1,1 @@
+javascript:(function(d){d.body.appendChild(d.createElement('script')).src='//github.com/noriaki/8card-export/raw/master/bkmrklt.j';})(document);

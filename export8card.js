@@ -70,7 +70,7 @@
 
       function init() {
         $('.full_text_search .btns_r')
-          .append('<div class="btn_sort"><ul class="btns clearfix"><li><a href="javascript:void(0);" id="__eight_export" class="btn"><span>[一覧出力]</span></a></li></ul></div>');
+          .append('<div class="btn_sort"><ul class="btns clearfix"><li><a href="javascript:void(0);" id="__eight_export" class="btn"><span>[全件DL(vCard.vcd)]</span></a></li></ul></div>');
         $('#__eight_export').one('click', perform);
       }
       function perform() {
@@ -166,7 +166,3 @@
     })()
   });
 })(jQuery);
-
-jQuery(function($) {
-  $.eight.init();
-});
