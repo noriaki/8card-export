@@ -4,7 +4,7 @@
       var page = 1;
       var base_uri = 'https://8card.net/people/display_personal_cards.json?sort=5&per_page=50&page=';
       //var base_uri = 'https://8card.net/people/display_personal_cards.json?keyword=inc&sort=5&per_page=50&page=';
-      var loading_gif_uri = 'https://github.com/noriaki/8card-export/raw/0.1.0/img/loading.gif';
+      var loading_gif_uri = 'https://github.com/noriaki/8card-export/raw/0.1.1/img/loading.gif';
       var ret = [];
 
       var card_params = [
