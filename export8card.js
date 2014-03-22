@@ -4,12 +4,13 @@
       var page = 1;
       var base_uri = 'https://8card.net/people/display_personal_cards.json?sort=5&per_page=50&page=';
       //var base_uri = 'https://8card.net/people/display_personal_cards.json?keyword=inc&sort=5&per_page=50&page=';
+      var loading_gif_uri = 'https://github.com/noriaki/8card-export/raw/master/loading.gif';
       var ret = [];
 
       var card_params = [
         'full_name', 'full_name_reading', 'email', 'company_name', 'company_name_reading',
-          'department', 'title', 'postal_code', 'address', 'url',
-          'company_phone_number', 'direct_line_number', 'mobile_phone_number', 'company_fax_number'
+        'department', 'title', 'postal_code', 'address', 'url',
+        'company_phone_number', 'direct_line_number', 'mobile_phone_number', 'company_fax_number'
       ];
       // todo: photo
 
@@ -18,14 +19,14 @@
         var self = this;
         $.each(['id', 'created_at', 'updated_at'], function(i, attr) { self[attr] = user[attr]; });
         $.each(card_params, function(i, card_attr) {
-            if(user['front_'+card_attr] && user['front_'+card_attr] !== '') {
-              self[card_attr] = user['front_'+card_attr];
-            } else if(user['back_'+card_attr] && user['back_'+card_attr] !== '') {
-              self[card_attr] = user['back_'+card_attr];
-            } else {
-              self[card_attr] = null;
-            }
-          });
+          if(user['front_'+card_attr] && user['front_'+card_attr] !== '') {
+            self[card_attr] = user['front_'+card_attr];
+          } else if(user['back_'+card_attr] && user['back_'+card_attr] !== '') {
+            self[card_attr] = user['back_'+card_attr];
+          } else {
+            self[card_attr] = null;
+          }
+        });
       }
       $.extend(Card.prototype, {
         to_vcard: function() {
@@ -90,7 +91,7 @@
                 return $.each(month_data, function(month, cards) {
                   return $.each(cards, function(j, card) {
                     var c = card.person.personal_cards[0].eight_card ||
-                            card.person.personal_cards[0].friend_card;
+                      card.person.personal_cards[0].friend_card;
                     if(c.entry_status === 40) {
                       //console.log(card);
                       ret.push(new Card(card.person));
@@ -129,28 +130,28 @@
       function utc_datetime(now) {
         now = now || new Date();
         return [
-        now.getUTCFullYear(), '-',
-        now.getUTCMonth(), '-',
-        now.getUTCDate(), 'T',
-        now.getUTCHours(), ':',
-        now.getUTCMinutes(), ':',
-        now.getUTCSeconds(), 'Z'
+          now.getUTCFullYear(), '-',
+          now.getUTCMonth(), '-',
+          now.getUTCDate(), 'T',
+          now.getUTCHours(), ':',
+          now.getUTCMinutes(), ':',
+          now.getUTCSeconds(), 'Z'
         ].join('');
       }
       function before_perform() {
-          // TODO: start loading indicator
-          $('#__eight_export').addClass('disable')
-              .find('span').text('loading cards...');
-          //console.info('start');
+        $('#__eight_export').addClass('disable')
+          .find('span').text('loading cards...')
+          .append($('<img>').attr({ src: loading_gif_uri }));
+        //console.info('start');
       }
       function before_display() {
-          // TODO: stop loading indicator
-          $('#__eight_export span').text('converting to vcard...');
+        $('#__eight_export span').text('converting to vcard...');
       }
       function after_display() {}
       function after_perform() {
-          //console.info('end');
-          $('#__eight_export span').text('done');
+        //console.info('end');
+        $('#__eight_export span').text('done')
+          .find('img').remove();
       }
 
       function e(str) {
