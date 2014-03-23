@@ -71,7 +71,7 @@
 
       function init() {
         $('.full_text_search .btns_r')
-          .append('<div class="btn_sort"><ul class="btns clearfix"><li><a href="javascript:void(0);" id="__eight_export" class="btn"><span>[全件DL(vCard.vcd)]</span></a></li></ul></div>');
+          .append('<div class="btn_sort"><ul class="btns clearfix"><li><a href="javascript:void(0);" id="__eight_export" class="btn"><span>全件DL(vCard)</span></a></li></ul></div>');
         $('#__eight_export').one('click', perform);
       }
       function perform() {
@@ -114,7 +114,7 @@
       }
       function download(text) {
         var blob = new Blob([text]);
-        var filename = "8card-all.vcd";
+        var filename = '8card-all_'+datestamp()+'.vcd';
         if(navigator.msSaveBlob) {
           navigator.msSaveBlob(blob, filename);
         } else {
@@ -127,11 +127,19 @@
         }
       }
 
+      function datestamp(now) {
+        now = now || new Date();
+        return [
+          now.getFullYear(),
+          ('0'+(now.getMonth()+1)).slice(-2),
+          ('0'+now.getDate()).slice(-2)
+        ].join('');
+      }
       function utc_datetime(now) {
         now = now || new Date();
         return [
           now.getUTCFullYear(), '-',
-          now.getUTCMonth(), '-',
+          now.getUTCMonth()+1, '-',
           now.getUTCDate(), 'T',
           now.getUTCHours(), ':',
           now.getUTCMinutes(), ':',
@@ -141,7 +149,9 @@
       function before_perform() {
         $('#__eight_export').addClass('disable')
           .find('span').text('loading cards...')
-          .append($('<img>').attr({ src: loading_gif_uri }));
+          .prepend(
+            $('<img>').attr({ src: loading_gif_uri })
+              .css({ height: '14px', width: '14px' }));
         //console.info('start');
       }
       function before_display() {
